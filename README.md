@@ -11,13 +11,14 @@ References: Dimov, I., & Karaivanova, A. (1997). Iterative Monte Carlo algorithm
 Basic iterative methods studied in 'Advanced Matrix Algorithims' graduate course.
 - Block Gauss Seidel method
 - Block Jacobi method
-References: Saad, Y. (2003). Iterative methods for sparse linear systems (Vol. 82). siam.
+.References: Saad, Y. (2003). Iterative methods for sparse linear systems (Vol. 82). siam.
 
 ### Generalized Minimum Residual (GMRES) solver 
 Iterative projection method studied in 'Advanced Matrix Algorithims' graduate course.
-References: Saad, Y. (2003). Iterative methods for sparse linear systems (Vol. 82). siam.
+.References: Saad, Y. (2003). Iterative methods for sparse linear systems (Vol. 82). siam.
 
 ### Permutation functions
 Permutation (reordering) methods studied in 'Advanced Matrix Algorithims' graduate course to improve the convergence of iterative solvers.
 - Reverse Cuthill-McKee method
 - Breadth First Search method
+.References: Saad, Y. (2003). Iterative methods for sparse linear systems (Vol. 82). siam.
