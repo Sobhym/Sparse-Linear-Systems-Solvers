@@ -1,6 +1,6 @@
 function [ x,error,n,j ] = GMRES_Iterative( A,b,x_0,m,r_tol,N )
 
-%Inpputs:
+%Inputs:
 %           A,b: System matrix and RHS such that A*x=b
 %           x_0: initial guess
 %           m: Krylov subspace dimension

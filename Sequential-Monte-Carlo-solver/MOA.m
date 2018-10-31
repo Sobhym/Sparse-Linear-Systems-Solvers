@@ -1,32 +1,35 @@
-function [ X_full] = MCMC_full_soln( A,b,k,N )
-%This function calculates 'x_k+1' the full solution vector
-%Run every state as the initial state N walks to calculate X_full(j) 
-%defined as the mean of the random variable 'Z_k(j)' j=1,2,..n
-%where     -one sample of the random varible 'Z_k(j)' is calculated at the end 
-%            of walk ‘i’ after walking k steps on the states of the matrix i=1,2,..N            
-%          -'x_k+1' is iterative solution at iteration k+1
+function [ inner_product, error] = MOA( A,b,h,k,N )
+% This function calculates the inner product of the solution with a vector
+% 'h', by running a large number of random walks on the states of the
+% system to estimate the inner product, <h,x_k>, where: 
+% - x_k: is the exact iterative solution after k iterations  
+% - h: is the vector to calculate the inner product with
+% Inputs:
+%           A,b: System matrix and RHS such that A*x=b
+%           h:   Vector we estimate the inner product with.
+%           k:   Number of steps in a random walk (depends on system convergence)
+%           N:   Number of random walks
+% Outputs:
+%           Inner_product: Estimate of the inner product <h,x_k>
+%           Error:         Estimate of the probabilistic error bound.
 
-%A,b are the system and RHS respectively such that "A x = b"
-%k is the number of steps in a random walk 
-%N is the number of random walks
 
 %Calculate "B = I - A" where the system is written "x = B x + b"
 [n,m]=size(A);
 assert(n==m,'Input matrix must be square');
 B=eye(n)-A;
-%Calculate the eigen values to check if the sequence will converge
-%In a practical impelenation the calculation of the eigen values will not
-%be included but i added it for illustration. 
-Eig_B=abs(eig(B));
-Spectral_radius=max(Eig_B);
-sprintf([ 'Spectral radius is ' num2str(Spectral_radius) ]) 
-assert(Spectral_radius < 1,'Spectral radius bigger than 1 (non-converging)');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % General Setting for the random walks %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+%Create p (Initial probability vector) based on h
+p=transpose(h);
+p=abs(p);
+p=p/sum(p);
+%p_cdf is the cumulative distribution function (cdf) of 'p'
+%used to sample from 'p' pdf
+p_cdf=cumsum([0,p]);
 
 %Create P (Transition matrix) based on B
 P=abs(B);
@@ -43,12 +46,6 @@ end
 %Z_k(N) vaule of Z_k calculated at last run
 Z_k=zeros(N,1);
 
-%The full solution
-X_full=zeros(n,1);
-
-%Run every state as the initial state N times to calculate X_full(j) 
-%defined as the mean of the random variable 'Z_k(j)' j=1,2,..n
-for S_0=1:n
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % Running N random walks %
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,6 +55,13 @@ for j=1:N
     %%%%%%%%%%%%%%%%%
     % A random walk %
     %%%%%%%%%%%%%%%%%
+    
+    %Get the initail state based on the 'p' pdf
+    %Get a random number [0,1]
+    r=rand;
+    %Check for r >= 'p_cdf' (the cdf of 'p')
+    %The random state is the number of times this condition is true
+    S_0=sum(r >= p_cdf);
     
     %Initialize the weight function W_0 =1 
     W_0=1;
@@ -86,16 +90,15 @@ for j=1:N
         
     end
     %This condition will not fail as we know from the begining that the
-    %matrix is converging 
-    assert(Z<1e9,'The answer is not converging');
+    %matrix is converging
+    assert(Z<1e9,'The answer is not converging, spectral radius of the system must be smaller than one');
     %Calculate the random variable `Z_k` at the end of walk 
-    Z_k(j)=Z;
+    Z_k(j)=h(S_0)/p(S_0)*Z;
     
 end
 
 %Calculate <h,x_k+1> defined as the mean of the random variable 'Z_k'
-X_full(S_0)=mean(Z_k);
-end
-
+inner_product=mean(Z_k);
+error=sqrt(var(Z_k)/N);
 end
 
