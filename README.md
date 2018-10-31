@@ -1,7 +1,7 @@
 # Sparse linear systems solvers
 Implementation of different iterative methods to solve large sparse linear systems of equations written in matrix form, i.e., Ax=b.
 
-# Sequential Monte Carlo solvers
+## Sequential Monte Carlo solvers
 Iterative methods that uses Monte Carlo to estimate the inner product of the solution with a weighting vector.
 - Monte Carlo Almost optimal (MAO) algorithm introduced by Dimov.
 References: Dimov, I., & Karaivanova, A. (1997). Iterative Monte Carlo algorithms for linear algebra problems. Numerical Analysis and Its Applications, 150-160.
