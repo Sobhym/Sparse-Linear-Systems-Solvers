@@ -4,18 +4,18 @@ Implementation of different iterative methods to solve large sparse linear syste
 ### Sequential Monte Carlo solvers
 Iterative methods that uses Monte Carlo to estimate the inner product of the solution with a weighting vector.
 - Monte Carlo Almost optimal (MAO) algorithm introduced by Dimov.
-References: Dimov, I., & Karaivanova, A. (1997). Iterative Monte Carlo algorithms for linear algebra problems. Numerical Analysis and Its Applications, 150-160.
+/n References: Dimov, I., & Karaivanova, A. (1997). Iterative Monte Carlo algorithms for linear algebra problems. Numerical Analysis and Its Applications, 150-160.
 - A new faster algorithm I developed during my research.
 
 ### Basic iterative solvers
 Basic iterative methods studied in 'Advanced Matrix Algorithims' graduate course.
 - Block Gauss Seidel method
 - Block Jacobi method
-.References: Saad, Y. (2003). Iterative methods for sparse linear systems (Vol. 82). siam.
+\n References: Saad, Y. (2003). Iterative methods for sparse linear systems (Vol. 82). siam.
 
 ### Generalized Minimum Residual (GMRES) solver 
 Iterative projection method studied in 'Advanced Matrix Algorithims' graduate course.
-.References: Saad, Y. (2003). Iterative methods for sparse linear systems (Vol. 82). siam.
+References: Saad, Y. (2003). Iterative methods for sparse linear systems (Vol. 82). siam.
 
 ### Permutation functions
 Permutation (reordering) methods studied in 'Advanced Matrix Algorithims' graduate course to improve the convergence of iterative solvers.
